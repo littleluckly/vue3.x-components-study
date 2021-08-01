@@ -4,8 +4,7 @@
   </form>
 </template>
 <script>
-import { provide, reactive, toRefs } from "vue";
-import mitt from "mitt";
+import { provide, reactive, toRefs, getCurrentInstance } from "vue";
 export default {
   props: {
     model: {
@@ -18,8 +17,8 @@ export default {
     },
   },
   setup(props) {
+    const { proxy } = getCurrentInstance();
     const fields = reactive([]);
-    const emitter = mitt();
 
     const validate = (cb) => {
       const tasks = fields.map((item) => item.validate());
@@ -30,18 +29,16 @@ export default {
           cb(false);
         });
     };
-
-    emitter.on("ti.form.addField", (field) => {
-      field && fields.push(field);
+    proxy.$sub("ti.form.addField", (field) => {
+      field && fields.push(field[0]);
     });
 
     const tiForm = reactive({
-      formEmitter: emitter,
       ...toRefs(props),
     });
     provide("tiForm", tiForm);
 
-    return { fields, emitter, validate };
+    return { fields, validate };
   },
 };
 </script>

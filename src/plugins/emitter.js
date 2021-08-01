@@ -12,12 +12,14 @@ export default {
 
     // 全局订阅（在Vue全局方法中自定义$sub订阅方法）
     Vue.config.globalProperties.$sub = function(...args) {
-      Reflect.apply(_emitter.on, _emitter, args);
+      // Reflect.apply(_emitter.on, _emitter, args);
+      _emitter.on.apply(_emitter, args);
     };
 
     // 取消订阅
     Vue.config.globalProperties.$unsub = function(...args) {
-      Reflect.apply(_emitter.off, _emitter, args);
+      // Reflect.apply(_emitter.off, _emitter, args);
+      _emitter.off.apply(_emitter, args);
     };
   },
 };

@@ -6,7 +6,6 @@
 </template>
 
 <script>
-import { getCurrentInstance, onMounted } from "vue";
 import FormDemo from "./demos/formDemo";
 import MessageDemo from "./demos/messageDemo";
 import InputDemo from "./demos/inputDemo";
@@ -19,19 +18,7 @@ export default {
     InputDemo,
   },
 
-  setup() {
-    const { proxy } = getCurrentInstance();
-    proxy.$sub("my-event", () => {
-      console.log("$on: my-event");
-    });
-
-    onMounted(() => {});
-
-    const onClick = () => {
-      proxy.$pub("my-event");
-    };
-    return { onClick };
-  },
+  setup() {},
 };
 </script>
 

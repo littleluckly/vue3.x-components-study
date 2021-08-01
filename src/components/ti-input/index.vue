@@ -2,7 +2,7 @@
   <input type="text" :value="modelValue" @input="handleChange" />
 </template>
 <script>
-import { inject } from "vue";
+import { getCurrentInstance } from "vue";
 export default {
   name: "ti-input",
   props: {
@@ -11,17 +11,15 @@ export default {
     },
   },
   setup(props, { emit }) {
-    const tiFormItem = inject("tiFormItem");
+    const { proxy } = getCurrentInstance();
 
     const handleChange = (e) => {
       emit("update:modelValue", e.target.value);
-      console.log("change");
-      tiFormItem && tiFormItem.formItemEmitter.emit("validate");
+      proxy.$pub("ti.form.item.validate");
     };
 
     const handleBlur = () => {
       console.log("blur");
-      tiFormItem && tiFormItem.formItemEmitter.emit("validate");
     };
     return { handleChange, handleBlur };
   },
