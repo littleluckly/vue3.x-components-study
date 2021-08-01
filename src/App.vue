@@ -2,9 +2,11 @@
   <message-demo />
   <input-demo />
   <form-demo></form-demo>
+  <button @click="onClick">$emit</button>
 </template>
 
 <script>
+import { getCurrentInstance, onMounted } from "vue";
 import FormDemo from "./demos/formDemo";
 import MessageDemo from "./demos/messageDemo";
 import InputDemo from "./demos/inputDemo";
@@ -17,7 +19,19 @@ export default {
     InputDemo,
   },
 
-  setup() {},
+  setup() {
+    const { proxy } = getCurrentInstance();
+    proxy.$sub("my-event", () => {
+      console.log("$on: my-event");
+    });
+
+    onMounted(() => {});
+
+    const onClick = () => {
+      proxy.$pub("my-event");
+    };
+    return { onClick };
+  },
 };
 </script>
 

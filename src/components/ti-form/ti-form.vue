@@ -17,13 +17,12 @@ export default {
       default: () => ({}),
     },
   },
-  setup(props, { emit }) {
+  setup(props) {
     const fields = reactive([]);
     const emitter = mitt();
 
     const validate = (cb) => {
       const tasks = fields.map((item) => item.validate());
-      console.log("task", tasks, fields);
       Promise.all(tasks)
         .then(() => cb(true))
         .catch(() => {
@@ -39,7 +38,6 @@ export default {
     const tiForm = reactive({
       formEmitter: emitter,
       ...toRefs(props),
-      emit,
     });
     provide("tiForm", tiForm);
 

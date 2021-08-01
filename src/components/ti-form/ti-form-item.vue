@@ -25,7 +25,8 @@ export default {
   setup(props) {
     const emitter = mitt();
     let error = ref();
-    // const { prop } = toRefs(reactive(props));
+
+    // 接受父组件传递的`formItemEmitter`、`prop`、`model`、`rules`属性和方法
     const tiForm = inject("tiForm");
 
     const validate = () => {
@@ -48,6 +49,7 @@ export default {
       });
     };
 
+    // 定义响应式的表单项对象，将props、校验方法、事件总线通过`provide`传递给子孙后代组件，如`ti-input`、`ti-select`等具体的UI控件
     const tiFormItem = reactive({
       ...toRefs(props),
       formItemEmitter: emitter,
@@ -56,9 +58,11 @@ export default {
     provide("tiFormItem", tiFormItem);
 
     onMounted(() => {
+      // 注册validate事件， 用于UI控件触发校验, 如ti-input控件
       emitter.on("validate", validate);
+
+      // 通过父组件的事件总线，将表单项校验方法传递给父组件
       if (props.prop) {
-        console.log(1, tiForm.formEmitter.emit, tiFormItem);
         tiForm.formEmitter.emit("ti.form.addField", tiFormItem);
       }
     });
