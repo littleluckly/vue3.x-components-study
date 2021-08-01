@@ -1,33 +1,23 @@
 <template>
-  <HelloWorld msg="Welcome to Your Vue.js App" />
-  <Message message="xxsflkdjflaskdjfas" :duration="2" />
-  <button @click="handleOpen">message</button>
+  <message-demo />
+  <input-demo />
+  <form-demo></form-demo>
 </template>
 
 <script>
-import { getCurrentInstance } from "vue";
-import HelloWorld from "./components/HelloWorld.vue";
-import Message from "./components/message";
+import FormDemo from "./demos/formDemo";
+import MessageDemo from "./demos/messageDemo";
+import InputDemo from "./demos/inputDemo";
 
 export default {
   name: "App",
   components: {
-    HelloWorld,
-    Message,
+    MessageDemo,
+    FormDemo,
+    InputDemo,
   },
 
-  setup() {
-    const { proxy } = getCurrentInstance();
-    const handleOpen = () => {
-      const vm = proxy.$message({
-        message: "拉客的",
-      });
-      setTimeout(() => {
-        vm.close();
-      }, 2000);
-    };
-    return { handleOpen };
-  },
+  setup() {},
 };
 </script>
 

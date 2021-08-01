@@ -11,6 +11,6 @@ export const message = (props) => {
   });
   document.body.appendChild(vm.mount(container).$el);
   return {
-    close: () => (vm.component.proxy.isShow = false),
+    close: () => vm.component.proxy && (vm.component.proxy.isShow = false),
   };
 };
